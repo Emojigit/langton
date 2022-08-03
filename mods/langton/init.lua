@@ -17,7 +17,7 @@ minetest.register_node("langton:langton",{
 minetest.register_node("langton:error",{
 	description = "Cprrupted Langton's Ants",
 	diggable = true,
-	tiles = {"ant.png^[colorize:#F0F:100]"},
+	tiles = {"ant.png^[colorize:#F0F:50]"},
 	groups = {oddly_breakable_by_hand = 3},
 	drop = "langton:langton",
 })
@@ -25,7 +25,7 @@ minetest.register_node("langton:error",{
 minetest.register_node("langton:pause",{
 	description = "Paused Langton's Ants",
 	diggable = true,
-	tiles = {"ant.png^[colorize:#0F0:100]"},
+	tiles = {"ant.png^[colorize:#0F0:50]"},
 	groups = {oddly_breakable_by_hand = 3},
 	drop = "langton:langton",
 	on_rightclick = function(pos)
@@ -54,6 +54,7 @@ minetest.register_abm({
 	max_y = 0,
 	catch_up = false,
 	action = function(pos,node)
+		local old_meta = minetest.get_meta(pos):to_table()
 		if pos.y ~= 0 then
 			minetest.set_node(pos,{name="air"})
 			return
@@ -79,8 +80,13 @@ minetest.register_abm({
 			minetest.swap_node(pos,{name="langton:error"})
 			return
 		end
-		minetest.swap_node(pos,{name="air"})
+		minetest.set_node(pos,{name="air"})
 		local dir = dirmap[node.param2]
-		minetest.swap_node(vector.add(pos,dir),node)
+		local new_pos = vector.add(pos,dir)
+		minetest.set_node(new_pos,node)
+		local meta = minetest.get_meta(new_pos)
+		meta:from_table(old_meta)
+		meta:set_int("step",meta:get_int("step") + 1)
+		meta:set_string("infotext",tostring(meta:get_int("step") ) .. " steps")
 	end
 })
