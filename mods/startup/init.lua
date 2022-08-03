@@ -1,0 +1,5 @@
+minetest.register_on_joinplayer(function(player)
+	local inv = player:get_inventory()
+	inv:set_list("main",{})
+	inv:add_item("main","langton:langton 99")
+end)
