@@ -1,11 +1,11 @@
-minetest.register_node("mapgen:white",{
+minetest.register_node(":mapgen:white",{
 	description = "Mapgen Block - White (Hacker!)",
 	short_description = "Mapegn Block - White",
 	diggable = false,
 	tiles = {"white_1px.png^[colorize:#FFF"}
 })
 
-minetest.register_node("mapgen:black",{
+minetest.register_node(":mapgen:black",{
 	description = "Mapgen Block - Black (Hacker!)",
 	short_description = "Mapegn Block - Black",
 	diggable = false,
